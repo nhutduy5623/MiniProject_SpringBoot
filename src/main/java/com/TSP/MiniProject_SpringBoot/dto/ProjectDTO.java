@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -14,7 +15,6 @@ public class ProjectDTO extends AbstractDTO{
     private String detail;
     private Date start_day;
     private Date duration;
-    private Integer status;
-    private List<AssignmentDTO> assignmentDTOList = new ArrayList<>();
-    private List<SalaryHistoryDTO> salaryHistoryDTOList = new ArrayList<>();
+    private List<AssignmentDTO> list_assignment = new ArrayList<>();
+    private HashMap<String, String> depts_charge = new HashMap<>();
 }

@@ -12,5 +12,4 @@ public class SalaryHistoryDTO extends AbstractDTO{
     private Double bonus_salary;
     private Double penalty;
     private String detail;
-    private Integer status;
 }

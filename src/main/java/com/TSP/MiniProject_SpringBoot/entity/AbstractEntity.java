@@ -21,7 +21,7 @@ public abstract class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String code;
 
     @Column

@@ -22,4 +22,5 @@ public abstract class AbstractDTO<T> {
     private Integer nextPage = 1;
     private Integer limit = 4;
     private String searchValue;
+    private Integer status = 1;
 }

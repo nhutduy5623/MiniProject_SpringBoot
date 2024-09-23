@@ -1,5 +1,7 @@
 package com.TSP.MiniProject_SpringBoot.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import javax.persistence.*;
 @Setter
 public class AccountEntity extends AbstractEntity {
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
@@ -25,6 +27,7 @@ public class AccountEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    private EmployeeEntity employeeEntity;
+    @JsonIgnoreProperties("list_account")
+    private EmployeeEntity employee;
 
 }

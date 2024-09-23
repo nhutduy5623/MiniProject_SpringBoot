@@ -33,6 +33,6 @@ public class ProjectEntity extends AbstractEntity {
     private List<AssignmentEntity> list_assignment = new ArrayList<>();
 
     @OneToMany(mappedBy = "projectEntity", fetch = FetchType.LAZY)
-    private List<ProjectTeamDetailEntity> list_projectDetail = new ArrayList<>();
+    private List<DeptAssignmentEntity> list_DeptAssignment = new ArrayList<>();
 
 }
