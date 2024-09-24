@@ -29,7 +29,7 @@ public class DepartmentEntity extends AbstractEntity{
     @OneToMany(mappedBy = "dept", fetch = FetchType.LAZY)
     private List<EmployeeEntity> list_employee = new ArrayList<>();
 
-    @OneToMany(mappedBy = "deptEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dept", fetch = FetchType.LAZY)
     private List<DeptAssignmentEntity> list_DeptAssignment = new ArrayList<>();
 
 }

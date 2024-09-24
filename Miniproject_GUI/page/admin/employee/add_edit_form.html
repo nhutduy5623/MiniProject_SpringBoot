@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Form Employee Management - SB Admin</title>
+        <link href="../../../css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-primary">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4 title">Create Account</h3></div>
+                                    <div class="card-body">
+                                        <form id="form_data_edit_save">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputCode" type="text" name="code" placeholder="Enter employee code" />
+                                                        <label for="inputCode">Code</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="inputFullName" type="text" name="full_name" placeholder="Enter employee full name" />
+                                                        <label for="inputFullName">Full Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputAddress" type="text" name="address" placeholder="Enter employee address" />
+                                                <label for="inputAddress">Address</label>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputDob" type="date" name="dob" placeholder="Enter employee birthday" />
+                                                        <label for="inputDob">Birthday</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputStartDay" type="date" name="start_day" placeholder="Enter employee start day" />
+                                                        <label for="inputStartDay">Start Day</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPosition" type="text" name="position" placeholder="Enter employee position" />
+                                                        <label for="inputPosition">Position</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputBasicSalary" type="number" name="basic_salary" placeholder="Enter employee basic salary" />
+                                                        <label for="inputBasicSalary">Basic Salary</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-control" id="inputDept" name="dept_code" placeholder="Enter employee department">
+                                                    
+                                                </select>
+                                                <label for="inputDept">Department</label>
+                                            </div>
+
+                                            <br>                                        
+                                            <h4>Employee Account</h4>
+                                            <br>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputEmail" type="email" name="email" placeholder="Example123@gmail.com" />
+                                                <label for="inputEmail">Email Address</label>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPassword" type="password" name="password" placeholder="Create a password" />
+                                                        <label for="inputPassword">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" name="PasswordConfirm" placeholder="Confirm password" />
+                                                        <label for="inputPasswordConfirm">Confirm Password</label>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>                                            
+                                            <div class="mt-4 mb-0">
+                                                
+                                                <div class="d-grid"><input id="btn_saveData" class="btn btn-primary btn-block" type="button" value="Save"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer .mt-5">
+                <footer class="py-4 bg-light mt-5">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../../js/scripts.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+            var id = getUrlParameter('id');
+            title = "Add New Employee"                          
+            getDepartmentList(function(data) {
+                renderDepartmentList(data)
+            })
+            if (id != null) {
+                title = "Edit Employee";
+                $('.title').html(title);
+
+                Promise.all([
+                    fetch("http://localhost:8080//api/dept").then(response => response.json()),
+                    fetch("http://localhost:8080/api/employee_id/" + id).then(response => response.json())
+                ])
+                .then(([deptData, employeeData]) => {
+                    renderDepartmentList(deptData);  // render danh sách department trước
+                    renderFillData(employeeData);    // sau đó render thông tin employee
+                });
+            } else {
+                // Nếu không có id, chỉ cần lấy department
+                getDepartmentList(renderDepartmentList);
+            }
+            $('.title').html(title)
+            
+            function getDepartmentList(callBack) {
+                Department_API = "http://localhost:8080/api/dept";
+                fetch(Department_API) 
+                    .then(function(response) {
+                        return response.json();
+                    })                
+                    .then(callBack)
+            }
+            
+            function getData(callBack) {
+                Employee_API = "http://localhost:8080/api/employee_id/"+id;                
+                fetch(Employee_API) 
+                    .then(function(response) {
+                        return response.json();
+                    })                
+                    .then(callBack)
+                
+            }
+
+            
+
+            function renderFillData(response) {
+                old_Model = response.result      
+                $('#inputCode').val(old_Model.code)
+                $('#inputFullName').val(old_Model.full_name)
+                $('#inputAddress').val(old_Model.address)
+                $('#inputDob').val(old_Model.dob)
+                $('#inputStartDay').val(old_Model.start_day)
+                $('#inputPosition').val(old_Model.position)
+                $('#inputBasicSalary').val(old_Model.basic_salary)
+                $('#inputDept').val(old_Model.dept_code).change()
+                $('#inputEmail').val()
+            }
+
+            function renderDepartmentList(data) {
+                results = data.result.listResults;
+                console.log(results)
+                var htmls = results.map(function(data) { 
+                    return `
+                        <option value="${data.code}">${data.name}</option>
+                    `;   
+                });
+                htmls+='<option value="add">Add new</option>'
+                $("#inputDept").html(htmls)
+            }
+
+            // Save and Edit
+            var requestAPI = "http://localhost:8080/admin/employee"
+
+            $("#btn_saveData").click(function(e){ 
+                e.preventDefault();
+                var data = {};
+                var formData = $('#form_data_edit_save').serializeArray();
+                // console.log("FormData: "+formData[1].value)
+                $.each(formData, function (i, v) {
+                    data[""+v.name+""] = v.value;	
+                })
+                if(id==null) {
+                    save(data)
+                } else {
+                    data["id"] = id
+                    update(data)
+                }
+
+            })
+
+            function save(data) {
+                $.ajax({
+                    url: requestAPI,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (result) {
+                        window.location.href = "./home.html";
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        alert("Đã xảy ra lỗi!")
+                    }
+                });
+            }
+
+            function update(data) {
+                $.ajax({
+                    url: requestAPI,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (result) {
+                        window.location.href = "./home.html";
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        alert("Đã xảy ra lỗi!")
+                    }
+                });
+            }
+
+            function getUrlParameter(param) {
+                var queryString = window.location.search.substring(1);
+                var params = queryString.split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var pair = params[i].split('=');
+                    if (pair[0] === param) {
+                        return decodeURIComponent(pair[1]);
+                    }
+                }
+                return null;
+            }
+        </script>
+    </body>
+</html>
+

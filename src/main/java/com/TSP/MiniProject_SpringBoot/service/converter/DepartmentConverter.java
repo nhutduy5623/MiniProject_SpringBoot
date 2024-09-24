@@ -35,7 +35,7 @@ public class DepartmentConverter {
         }
         HashMap<String, String> projects_ChargeMap = new HashMap<>();
         for(DeptAssignmentEntity projectCharge : departmentEntity.getList_DeptAssignment()) {
-            projects_ChargeMap.put(projectCharge.getDept().getCode(), projectCharge.getDept().getName());
+            projects_ChargeMap.put(projectCharge.getDept().getCode(), projectCharge.getMainTaskDetails());
         }
         departmentDTO.setProjects_charge(projects_ChargeMap);
         return departmentDTO;

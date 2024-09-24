@@ -3,10 +3,14 @@ package com.TSP.MiniProject_SpringBoot.service.impl;
 import com.TSP.MiniProject_SpringBoot.dto.DepartmentDTO;
 import com.TSP.MiniProject_SpringBoot.dto.ProjectDTO;
 import com.TSP.MiniProject_SpringBoot.dto.ResponseDTO;
+import com.TSP.MiniProject_SpringBoot.entity.DeptAssignmentEntity;
 import com.TSP.MiniProject_SpringBoot.entity.ProjectEntity;
 import com.TSP.MiniProject_SpringBoot.entity.ProjectEntity;
 import com.TSP.MiniProject_SpringBoot.mapper.IProjectMapper;
+import com.TSP.MiniProject_SpringBoot.repository.IDepartmentRepository;
+import com.TSP.MiniProject_SpringBoot.repository.IDeptAssignmentRepository;
 import com.TSP.MiniProject_SpringBoot.repository.IProjectRepository;
+import com.TSP.MiniProject_SpringBoot.service.IDepartmentService;
 import com.TSP.MiniProject_SpringBoot.service.IProjectService;
 import com.TSP.MiniProject_SpringBoot.service.converter.ProjectConverter;
 import com.TSP.MiniProject_SpringBoot.specification.ProjectSpecification;
@@ -30,10 +34,21 @@ public class ProjectService implements IProjectService {
     @Autowired
     ProjectSpecification projectSpec;
 
+    @Autowired
+    IDepartmentRepository departmentRepository;
+
+    @Autowired
+    IDeptAssignmentRepository deptAssignmentRepository;
+
     @Override
     public ResponseDTO<ProjectDTO> save(ProjectDTO projectDTO) {
         ProjectEntity projectEntity = projectConverter.toEntity(projectDTO);
         projectEntity = projectRepository.save(projectEntity);
+        for (DeptAssignmentEntity deptAssignmentEntity: projectEntity.getList_DeptAssignment()) {
+            if (deptAssignmentEntity.getId() == null) {
+                deptAssignmentRepository.save(deptAssignmentEntity);
+            }
+        }
         projectDTO = projectConverter.toDTO(projectEntity);
         ResponseDTO<ProjectDTO> responseDTO = new ResponseDTO<>("Success", projectDTO);
         return responseDTO;

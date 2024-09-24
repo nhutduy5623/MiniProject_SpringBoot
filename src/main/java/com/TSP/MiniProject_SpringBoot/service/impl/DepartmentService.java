@@ -43,7 +43,6 @@ public class DepartmentService implements IDepartmentService {
         employeeRepository.save(leader);
         ResponseDTO<DepartmentDTO> responseDTO = new ResponseDTO<>("Success", DepartmentDTO);
         return responseDTO;
-
     }
 
     @Override

@@ -1,0 +1,33 @@
+.layout_Pagination {
+    display: flex;
+    justify-content: space-evenly;
+}
+.layout_Pagination > div {
+    width: 50%;
+}
+.pagination {
+    display: flex;
+    justify-content: end;
+    width: 50%;
+        
+}
+.pagination > li {
+    border: 1px solid rgb(192, 192, 192);
+    display: flex;
+    justify-content: center ;
+    border-radius: 2%;
+    margin: 0px !important;
+    padding: 0.2% 2%;
+    align-items: center;
+    margin: auto;
+    padding: auto;
+}
+
+.pagination > li:hover {
+    background-color: rgb(211, 212, 213);
+}
+
+.pagination > li > a {
+    text-decoration: none;
+}
+

@@ -10,8 +10,12 @@ import java.util.List;
 @Setter
 public class ResponseDTO<T> {
     private String message;
+    private String status;
     private T result;
     private List<T> listResults = new ArrayList<>();
+
+    public ResponseDTO() {
+    }
 
     public ResponseDTO(String message, T result) {
         this.message = message;

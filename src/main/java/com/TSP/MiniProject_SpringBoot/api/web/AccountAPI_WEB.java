@@ -37,4 +37,10 @@ public class AccountAPI_WEB {
         ResponseDTO<AccountDTO> responseDTO = accountService.findOneByCode(code);
         return responseDTO;
     }
+
+    @GetMapping(value = "/api/admin/account_id/{id}")
+    public ResponseDTO<AccountDTO> findByCode(@PathVariable Long id) {
+        ResponseDTO<AccountDTO> responseDTO = accountService.findOne(id);
+        return responseDTO;
+    }
 }
