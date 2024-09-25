@@ -74,7 +74,6 @@ public class EmployeeService implements IEmployeeService {
         EmployeeEntity employeeEntity = employeeRepository.findOneByCode(code);
         EmployeeDTO employeeDTO = employeeConverter.toDTO(employeeEntity);
         ResponseDTO<EmployeeDTO> responseDTO = new ResponseDTO<>("Success", employeeDTO);
-
         return responseDTO;
     }
 

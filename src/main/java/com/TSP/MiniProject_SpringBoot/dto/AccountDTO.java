@@ -11,7 +11,6 @@ public class AccountDTO extends AbstractDTO{
     private String email;
     private String password;
     private String role;
-
     private String employee_code;
     private String employee_name;
 }

@@ -30,9 +30,6 @@ public class ProjectEntity extends AbstractEntity {
     private Integer status;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-    private List<AssignmentEntity> list_assignment = new ArrayList<>();
-
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<DeptAssignmentEntity> list_DeptAssignment = new ArrayList<>();
 
 }

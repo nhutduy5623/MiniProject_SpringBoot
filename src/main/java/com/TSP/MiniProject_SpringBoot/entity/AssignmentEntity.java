@@ -24,8 +24,8 @@ public class AssignmentEntity extends AbstractEntity {
     private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
-    private DeptAssignmentEntity project;
+    @JoinColumn(name = "deptAssignment_id")
+    private DeptAssignmentEntity deptAssignment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "responsible_person_id")

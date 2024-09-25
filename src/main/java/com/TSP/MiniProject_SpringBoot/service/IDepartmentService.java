@@ -14,4 +14,5 @@ public interface IDepartmentService {
     ResponseDTO<DepartmentDTO> findOne(Long id);
     ResponseDTO<DepartmentDTO> findOneByCode(String code);
     ResponseDTO<DepartmentDTO> findBySpecification(DepartmentDTO departmentCondition, Pageable pageable);
+
 }
