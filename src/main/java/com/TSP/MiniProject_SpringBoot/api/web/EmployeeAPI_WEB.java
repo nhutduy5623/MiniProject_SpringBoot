@@ -13,7 +13,7 @@ public class EmployeeAPI_WEB {
     @Autowired
     IEmployeeService employeeService;
 
-    @GetMapping(value = "/employee")
+    @GetMapping(value = "/api/employee")
     public ResponseDTO<EmployeeDTO> homePage(@RequestParam(value = "search", required = false) String search,
                                              @RequestParam(value = "dept_code", required = false) String dept_code,
                                              @RequestParam(value = "page", required = false) Integer page,
@@ -32,13 +32,13 @@ public class EmployeeAPI_WEB {
         return responseDTO;
     }
 
-    @GetMapping(value = "/employee/{code}")
+    @GetMapping(value = "/api/employee/{code}")
     public ResponseDTO<EmployeeDTO> findByCode(@PathVariable String code) {
         ResponseDTO<EmployeeDTO> responseDTO = employeeService.findOneByCode(code);
         return responseDTO;
     }
 
-    @GetMapping(value = "api/employee_id/{id}")
+    @GetMapping(value = "/api/employee_id/{id}")
     public ResponseDTO<EmployeeDTO> findById(@PathVariable Long id) {
         ResponseDTO<EmployeeDTO> responseDTO = employeeService.findOne(id);
         return responseDTO;

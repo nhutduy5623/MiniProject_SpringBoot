@@ -35,6 +35,8 @@ public class AuthenticationAPI {
             return ResponseEntity.ok(responseDTO);
         } catch (Exception e) {
             ResponseDTO<?> errorResponse = new ResponseDTO<>("Error", "Authentication failed: " + e.getMessage());
+            e.printStackTrace();
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }

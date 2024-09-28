@@ -1,13 +1,8 @@
 package com.TSP.MiniProject_SpringBoot.service.impl;
 
 import com.TSP.MiniProject_SpringBoot.dto.AccountDTO;
-import com.TSP.MiniProject_SpringBoot.dto.AccountDTO;
-import com.TSP.MiniProject_SpringBoot.dto.EmployeeDTO;
 import com.TSP.MiniProject_SpringBoot.dto.ResponseDTO;
 import com.TSP.MiniProject_SpringBoot.entity.AccountEntity;
-import com.TSP.MiniProject_SpringBoot.entity.AccountEntity;
-import com.TSP.MiniProject_SpringBoot.entity.EmployeeEntity;
-import com.TSP.MiniProject_SpringBoot.mapper.IAccountMapper;
 import com.TSP.MiniProject_SpringBoot.repository.IAccountRepository;
 import com.TSP.MiniProject_SpringBoot.service.IAccountService;
 import com.TSP.MiniProject_SpringBoot.service.converter.AccountConverter;
@@ -15,8 +10,8 @@ import com.TSP.MiniProject_SpringBoot.specification.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +28,15 @@ public class AccountService implements IAccountService {
     @Autowired
     AccountSpecification accountSpec;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public ResponseDTO<AccountDTO> save(AccountDTO accountDTO) {
         AccountEntity accountEntity = accountConverter.toEntity(accountDTO);
+        if(accountDTO.getPassword().length()<50) {
+            accountEntity.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        }
         accountEntity = accountRepository.save(accountEntity);
         accountDTO = accountConverter.toDTO(accountEntity);
         ResponseDTO<AccountDTO> responseDTO = new ResponseDTO<>("Success", accountDTO);

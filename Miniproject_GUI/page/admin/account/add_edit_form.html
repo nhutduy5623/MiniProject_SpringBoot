@@ -20,32 +20,38 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4 title">Create Account</h3></div>
                                     <div class="card-body">
-                                        <form id="form_data_edit_save">
+                                        <form id="form_data_edit_save">     
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <input class="form-control" id="inputCode" type="text" name="code" placeholder="Enter employee code" />
-                                                        <label for="inputCode">Code</label>
+                                                        <label for="inputCode">Employee code</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        <input class="form-control" id="inputName" type="text" name="name" placeholder="Enter department name" />
-                                                        <label for="inputName">Name</label>
+                                                        <input class="form-control" id="inputRole" type="text" name="role" placeholder="Enter account role" />
+                                                        <label for="inputRole">Role</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputTaskDetail" type="text" name="task_detail" placeholder="Enter department task detail" />
-                                                <label for="inputTaskDetail">Task detail</label>
+                                                <input class="form-control" id="inputEmail" type="email" name="email" placeholder="Enter email" />
+                                                <label for="inputEmail">Email</label>
                                             </div>
-                                            
-                                            
-                                            <div class="form-floating mb-3">
-                                                <select class="form-control" id="inputLeader" name="leader_code" placeholder="Enter employee department">
-                                                    
-                                                </select>
-                                                <label for="inputLeader">Leader</label>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPassword" type="password" name="password" placeholder="Enter employee password" />
+                                                        <label for="inputPassword">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Enter password confirm" />
+                                                        <label for="inputPasswordConfirm">Password confirm</label>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                                                           
@@ -81,28 +87,17 @@
         <script>
             token = localStorage.getItem('token')
             var id = getUrlParameter('id');
-            title = "Add new department"                          
-            getEmployeeList(function(data) {
-                renderEmployeeList(data)
-            })
+            title = "Add new department"   
             if (id != null) {
                 title = "Edit Employee";
                 $('.title').html(title);
-                Promise.all([
-                    fetch("http://localhost:8080/employee").then(response => response.json()),
-                    fetch("http://localhost:8080/api/dept_id/" + id).then(response => response.json())
-                ])
-                .then(([employeeData, deptData]) => {
-                    renderEmployeeList(employeeData);  // render danh sách department trước
-                    renderFillData(deptData);    // sau đó render thông tin employee
-                });
-            } else {
-                // Nếu không có id, chỉ cần lấy department
-                getEmployeeList(renderEmployeeList);
+                getData(function(response) {
+                    renderFillData(response)
+                })
             }
             $('.title').html(title)
-            
-            function getEmployeeList(callBack) {
+
+            function getData(callBack) {                
                 const fetchOptions = {
                     method: 'GET', // or 'POST' depending on your API
                     headers: {
@@ -110,23 +105,7 @@
                         'Authorization': `Bearer ${token}` // Attach the JWT here
                     }
                 };
-                Department_API = "http://localhost:8080/employee";
-                fetch(Department_API, fetchOptions ) 
-                    .then(function(response) {
-                        return response.json();
-                    })                
-                    .then(callBack)
-            }
-            
-            function getData(callBack) {
-                const fetchOptions = {
-                    method: 'GET', // or 'POST' depending on your API
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}` // Attach the JWT here
-                    }
-                };
-                Employee_API = "http://localhost:8080/api/dept_id/"+id;                
+                Employee_API = "http://localhost:8080/api/admin/account_id/"+id;                
                 fetch(Employee_API, fetchOptions) 
                     .then(function(response) {  
                         return response.json();
@@ -137,27 +116,16 @@
             
 
             function renderFillData(response) {
+                console.log(response)
                 old_Model = response.result      
                 $('#inputCode').val(old_Model.code)
-                $('#inputName').val(old_Model.name)
-                $('#inputTaskDetail').val(old_Model.task_detail)
-                $('#inputLeader').val(old_Model.leader_code)
-            }
-
-            function renderEmployeeList(data) {
-                results = data.result.listResults;
-                console.log(results)
-                var htmls = results.map(function(data) { 
-                    return `
-                        <option value="${data.code}">${data.full_name}</option>
-                    `;   
-                });
-                htmls+='<option value="add">Add new</option>'
-                $("#inputLeader").html(htmls)
+                $('#inputRole').val(old_Model.role)
+                $('#inputEmail').val(old_Model.email)
+                // $('#inputPassword').val(old_Model.password)
             }
 
             // Save and Edit
-            var requestAPI = "http://localhost:8080/api/admin/dept"
+            var requestAPI = "http://localhost:8080/api/admin/account"
 
             $("#btn_saveData").click(function(e){ 
                 e.preventDefault();
@@ -167,6 +135,7 @@
                 $.each(formData, function (i, v) {
                     data[""+v.name+""] = v.value;	
                 })
+                data["employee_code"] = data["code"]
                 if(id==null) {
                     save(data)
                 } else {

@@ -80,25 +80,20 @@
                                     <thead>
                                         <tr>
                                             <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Avatar</th>
-                                            <th>Position</th>
-                                            <th>Department</th>
-                                            <th>Dob</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Employee name</th>
+                                            <th>Email</th>
+                                            <th>password</th>
+                                            <th>Role</th>
                                             <th>Tool</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Avatar</th>
-                                            <th>Position</th>
-                                            <th>Department</th>
-                                            <th>Dob</th>
-                                            <th>Start date</th>
+                                            <th>Employee name</th>
+                                            <th>Email</th>
+                                            <th>password</th>
+                                            <th>Role</th>
                                             <th>Tool</th>
                                         </tr>
                                     </tfoot>
@@ -107,21 +102,14 @@
                                             <td>Tiger Nixon</td>
                                             <td>System Architect</td>
                                             <td>Edinburgh</td>
-                                            <td>Edinburgh</td>
                                             <td>61</td>
                                             <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                            <td>$320,800</td>
                                             <td>$320,800</td>
                                         </tr>                                  
                                     </tbody>
                                 </table>
                                 <div class="layout_Pagination">
-                                    <div id="layout_exportExcel">
-                                        <button id="btn_exportExcel" class="btn btn-primary">
-                                            Excel export  <i class="fa-solid fa-file-excel"></i>
-                                        </button>                                       
-                                    </div>
+                                    <div></div>
                                     <ul class="pagination" id="pagination1" style="right: 1px; position: relative;"></ul>
                                 </div>
                             </div>
@@ -136,7 +124,6 @@
                                 <a href="#">Privacy Policy</a>
                                 &middot;
                                 <a href="#">Terms &amp; Conditions</a>
-                                
                             </div>
                         </div>
                     </div>
@@ -149,29 +136,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="../../../paging/jq-paginator.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.29.2/dist/sweetalert2.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
         <script>
-            function getUrlParameter(param) {
-                var queryString = window.location.search.substring(1);
-                var params = queryString.split('&');
-                for (var i = 0; i < params.length; i++) {
-                    var pair = params[i].split('=');
-                    if (pair[0] === param) {
-                        return decodeURIComponent(pair[1]);
-                    }
-                }
-                return null;
-            }
-
-
-
-
-            var Employee_API = "http://localhost:8080/api/employee";
-            var Employee_Delete_API = "http://localhost:8080/api/admin/employee";
-            search = getUrlParameter("search");
-            if(search!=null) 
-                Employee_API = "http://localhost:8080/api/employee?search="+search
+            var home_api = "http://localhost:8080/api/admin/account";
+            var delete_API = "http://localhost:8080/api/admin/account";
             var search = $('.datatable-input').val();;
             function start() {                
                 getData(function(response) {
@@ -181,7 +149,7 @@
                     maxPageItem = response.result.limit
                     search = response.result.searchValue
                     $(".datatable-selector").val(maxPageItem)                    
-                    Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+currentPage+"&search="+search;
+                    home_api="http://localhost:8080/api/admin/account?limit="+maxPageItem+"&page="+currentPage+"&search="+search;
                     $.jqPaginator('#pagination1', {
                         totalPages : totalPages,
                         visiblePages : 5,
@@ -189,7 +157,7 @@
                         onPageChange : function(nextPage, type) {		
                             if (type != "init") {
                                 search = $('.datatable-input').val();
-                                Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+nextPage+"&search="+search;	
+                                home_api="http://localhost:8080/api/admin/account?limit="+maxPageItem+"&page="+nextPage+"&search="+search;	
                                 start()
                             }
                         }
@@ -226,14 +194,8 @@
                 })                
             }
             start()
-            
-
 
             // Define use API get data with fetch
-
-            // JWT 
-            
-
             function getData(callBack) {
                 token = localStorage.getItem('token')
                 const fetchOptions = {
@@ -243,7 +205,8 @@
                         'Authorization': `Bearer ${token}` // Attach the JWT here
                     }
                 };
-                fetch(Employee_API, fetchOptions)                
+
+                fetch(home_api, fetchOptions) 
                     .then(function(response) {
                         if (response.status === 403) { // Kiểm tra nếu mã phản hồi là 403
                             let userChoice = confirm("Bạn không đủ quyền truy cập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
@@ -259,9 +222,6 @@
                         return response.json();
                     })                
                     .then(callBack)
-                    .catch(function(error) {
-                        console.error('There was a problem with your fetch operation:', error);
-                    });
             }
 
             // Define render data for main table
@@ -271,13 +231,10 @@
                     return `
                         <tr id='item_${data.code}'>
                             <td>${data.code}</td>
-                            <td>${data.full_name}</td>
-                            <td><img src="http://localhost:8080/uploads/${data.avatar}" width="70px"></td>
-                            <td>${data.position}</td>
-                            <td>${data.dept_code}</td>
-                            <td>${data.dob}</td>
-                            <td>${data.start_day}</td>
-                            <td>${data.basic_salary}</td>   
+                            <td>${data.employee_name}</td>
+                            <td>${data.email}</td>
+                            <td>${data.password}</td>
+                            <td>${data.role}</td>
                             <td><a href="./add_edit_form.html?id=${data.id}">Edit</a> || <a href="#" class="btnDelete" id="btnDelete_${data.id}">Delete</a></td>                       
                         </tr> 
                     `;   
@@ -288,7 +245,7 @@
             // Define Delete function with ajax
             function deleteElement(data) {
                 $.ajax({
-                    url: Employee_Delete_API,
+                    url: delete_API,
                     type: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + token // Gắn token vào header
@@ -297,79 +254,20 @@
                     data: JSON.stringify(data),
                     success: function (result) {
                         search = $('.datatable-input').val();
-                        Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+currentPage+"&search="+search;	
+                        home_api="http://localhost:8080/api/admin/account?limit="+maxPageItem+"&page="+currentPage+"&search="+search;	
                         start()
                     },
                     error: function (error) {
-                        if (error.status === 403) { // Kiểm tra nếu mã phản hồi là 403
-                            let userChoice = confirm("Bạn không đủ quyền truy cập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
-                            if (userChoice) {
-                                $("#btn_logout").click()
-                                window.location.href = "../../login.html"
-                            } else {
-                                // Người dùng chọn No, không làm gì cả
-                                console.log("Người dùng đã chọn No.");
-                            }
-                            throw new Error("403 Forbidden"); // Dừng xử lý tiếp
-                        }
+                        alert(JSON.stringify(data))
+                        console.log(error)
                     }
-                });
-            }
-
-
-            $("#btn_exportExcel").click(function(e){
-                search = $('.datatable-input').val();
-                Excel_export_api = "http://localhost:8080/api/admin/employee/excel_export?search="+search;
-                $.ajax({
-                    url: Excel_export_api,
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token // Gắn token vào header
-                    },
-                    contentType: 'application/json',
-                    success: function (result) {               
-                        console.log(result.result.listResults) 
-
-                        data = removeUnwantedFields(result.result.listResults)
-                        // Chuyển đổi JSON sang sheet
-                        const worksheet = XLSX.utils.json_to_sheet(data);
-                        // Tạo một workbook
-                        const workbook = XLSX.utils.book_new();
-                        // Thêm worksheet vào workbook
-                        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-                        // Xuất file Excel
-                        XLSX.writeFile(workbook, "data.xlsx");
-                        // Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+currentPage+"&search="+search;	
-                        // start()
-                    },
-                    error: function (error) {
-                        if (error.status === 403) { // Kiểm tra nếu mã phản hồi là 403
-                            let userChoice = confirm("Bạn không đủ quyền truy cập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
-                            if (userChoice) {
-                                $("#btn_logout").click()
-                                window.location.href = "../../login.html"
-                            } else {
-                                // Người dùng chọn No, không làm gì cả
-                                console.log("Người dùng đã chọn No.");
-                            }
-                            throw new Error("403 Forbidden"); // Dừng xử lý tiếp
-                        }
-                    }
-                });
-            })
-
-            function removeUnwantedFields(data) {
-                // Lặp qua từng đối tượng trong mảng và tạo một đối tượng mới với các trường mong muốn
-                return data.map(item => {
-                    const { accountDTOList, listResults, assignmentDTOList, salaryHistoryDTOList, ...filteredItem } = item; // Lấy ra các trường không cần thiết
-                    return filteredItem; // Trả về đối tượng đã lọc
                 });
             }
 
         </script>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.js"></script>         
+
 <!-- Pagination and filter -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -391,14 +289,14 @@
                     maxPageItem = $(this).val();
                     search = $('.datatable-input').val();
                     $('li[jp-data="'+currentPage+'"]').css('background-color', 'rgb(255, 255, 255)');
-                    Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+1+"&search="+search;	
+                    home_api="http://localhost:8080/api/admin/account?limit="+maxPageItem+"&page="+1+"&search="+search;	
                     start()		
                 });	
                 $(document).keyup(function (e) {
                     if ($(".datatable-input").is(":focus") && (e.keyCode == 13)) {
                         search = $('.datatable-input').val();
                         $('li[jp-data="'+currentPage+'"]').css('background-color', 'rgb(255, 255, 255)');
-                        Employee_API="http://localhost:8080/api/employee?limit="+maxPageItem+"&page="+1+"&search="+search;	
+                        home_api="http://localhost:8080/api/admin/account?limit="+maxPageItem+"&page="+1+"&search="+search;	
                         start()
                     }
                 });
@@ -407,15 +305,6 @@
 
         <script>
             $("#sidenavAccordion").load("../menu.html"); 
-            localStorage.getItem('token');
-            const decodedToken = jwt_decode(token); 
-            role = decodedToken.role
-            $("#btn_exportExcel").hide()
-            if(role == "ROLE_ADMIN"){
-                $("#btn_exportExcel").show()
-            }
-            console.log(role)
         </script>
-        
     </body>
 </html>

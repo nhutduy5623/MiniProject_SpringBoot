@@ -35,6 +35,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-floating mb-3">
+                                                <input type="hidden" id="inputAvatar_temp">
+                                                <input class="form-control" id="inputAvatar" type="file" name="avatar" placeholder="Avatar employee address" />
+                                                <label for="inputAvatar">Avatar</label>
+                                            </div>
+
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputAddress" type="text" name="address" placeholder="Enter employee address" />
                                                 <label for="inputAddress">Address</label>
@@ -129,6 +136,7 @@
         <script src="../../../js/scripts.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
+            token = localStorage.getItem('token')
             var id = getUrlParameter('id');
             title = "Add New Employee"                          
             getDepartmentList(function(data) {
@@ -139,8 +147,20 @@
                 $('.title').html(title);
 
                 Promise.all([
-                    fetch("http://localhost:8080//api/dept").then(response => response.json()),
-                    fetch("http://localhost:8080/api/employee_id/" + id).then(response => response.json())
+                    fetch("http://localhost:8080/api/dept", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(response => response.json()),
+                    fetch("http://localhost:8080/api/employee_id/" + id, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(response => response.json())
                 ])
                 .then(([deptData, employeeData]) => {
                     renderDepartmentList(deptData);  // render danh sách department trước
@@ -153,8 +173,15 @@
             $('.title').html(title)
             
             function getDepartmentList(callBack) {
+                const fetchOptions = {
+                    method: 'GET', // or 'POST' depending on your API
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Attach the JWT here
+                    }
+                };
                 Department_API = "http://localhost:8080/api/dept";
-                fetch(Department_API) 
+                fetch(Department_API, fetchOptions) 
                     .then(function(response) {
                         return response.json();
                     })                
@@ -162,8 +189,15 @@
             }
             
             function getData(callBack) {
+                const fetchOptions = {
+                    method: 'GET', // or 'POST' depending on your API
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Attach the JWT here
+                    }
+                };
                 Employee_API = "http://localhost:8080/api/employee_id/"+id;                
-                fetch(Employee_API) 
+                fetch(Employee_API, fetchOptions) 
                     .then(function(response) {
                         return response.json();
                     })                
@@ -177,6 +211,7 @@
                 old_Model = response.result      
                 $('#inputCode').val(old_Model.code)
                 $('#inputFullName').val(old_Model.full_name)
+                $('#inputAvatar_temp').val(old_Model.avatar)
                 $('#inputAddress').val(old_Model.address)
                 $('#inputDob').val(old_Model.dob)
                 $('#inputStartDay').val(old_Model.start_day)
@@ -199,8 +234,8 @@
             }
 
             // Save and Edit
-            var requestAPI = "http://localhost:8080/admin/employee"
-
+            var requestAPI = "http://localhost:8080/api/admin/employee"
+            var upload_URL = "http://localhost:8080/api/admin/uploadFile"
             $("#btn_saveData").click(function(e){ 
                 e.preventDefault();
                 var data = {};
@@ -208,7 +243,21 @@
                 // console.log("FormData: "+formData[1].value)
                 $.each(formData, function (i, v) {
                     data[""+v.name+""] = v.value;	
-                })
+                }) 	
+                if($("#inputAvatar")[0].files[0]!=undefined) {
+                    data["avatar"] = $("#inputAvatar")[0].files[0].name;	
+                    var formDataUpload = new FormData();       
+                    formDataUpload.append('file', $("#inputAvatar")[0].files[0]);
+                    uploadFile(formDataUpload)
+                } else {
+                    if($("#inputAvatar_temp").val() == "") {
+                        alert("Please select a avatar")
+                        return;
+                    } else {
+                        data["avatar"] = $("#inputAvatar_temp").val();
+                    }
+                }
+                    
                 if(id==null) {
                     save(data)
                 } else {
@@ -222,15 +271,26 @@
                 $.ajax({
                     url: requestAPI,
                     type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // Gắn token vào header
+                    },
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     dataType: 'json',
                     success: function (result) {
-                        window.location.href = "./home.html";
+                        if(result.status="400") {
+                            console.log()
+                            window.location.href = "./home.html";                            
+                        } else {
+                            window.location.href = "./home.html";
+                        }                        
                     },
                     error: function (error) {
-                        console.log(error)
-                        alert("Đã xảy ra lỗi!")
+                        if(error.status == 403) {
+                            alert("Bạn không đủ quyền sử dụng!")
+                            window.location.href = "./home.html";
+                        }
+                        
                     }
                 });
             }
@@ -239,6 +299,9 @@
                 $.ajax({
                     url: requestAPI,
                     type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // Gắn token vào header
+                    },
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     dataType: 'json',
@@ -246,10 +309,31 @@
                         window.location.href = "./home.html";
                     },
                     error: function (error) {
+                        if(error.status == 403)
+                            alert("Bạn không đủ quyền sử dụng!")
                         console.log(error)
                         alert("Đã xảy ra lỗi!")
                     }
                 });
+            }
+
+            
+            function uploadFile(formData) {
+                $.ajax({
+                    url: upload_URL,
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // Gắn token vào header
+                    },
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function(result) {
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
             }
 
             function getUrlParameter(param) {

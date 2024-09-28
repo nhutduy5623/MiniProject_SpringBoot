@@ -37,10 +37,10 @@ public class CustomUserDetailService  implements UserDetailsService {
             } else {
                 String userName = accountEntity.getCode();
                 if (accountEntity.getEmployee() != null)
-                    userName = accountEntity.getEmployee().getFull_name();
+                    accountEntity.getEmployee().getFull_name();
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(accountEntity.getRole()));
-                UserSecurity userSecurity = new UserSecurity(accountEntity.getId(), accountEntity.getEmail(), accountEntity.getPassword(), userName, accountEntity.getCode(), true, true, true, true, authorities);
+                UserSecurity userSecurity = new UserSecurity(accountEntity.getId(), accountEntity.getEmail(), accountEntity.getPassword(), accountEntity.getEmployee().getFull_name(), accountEntity.getCode(), true, true, true, true, authorities);
                 return userSecurity;
             }
         }

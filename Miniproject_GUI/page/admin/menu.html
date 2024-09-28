@@ -13,15 +13,15 @@
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Employee Management
         </a>
-        <a class="nav-link" href="../../../index.html">
+        <a class="nav-link" href="../project/home.html">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Project Management
         </a>
-        <a class="nav-link" href="../../../index.html">
+        <a class="nav-link" href="../salary/home.html">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Salary Management
         </a>        
-        <a class="nav-link" href="../../../index.html">
+        <a class="nav-link" href="../account/home.html">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Account Management
         </a>                        
@@ -31,3 +31,11 @@
     <div class="small">Logged in as:</div>
     Start Bootstrap
 </div>
+<Script>
+    $("#btn_logout").click(function(e){
+        e.preventDefault();
+        localStorage.setItem("token", "");
+        window.location.href="../../login.html"
+    })
+    
+</Script>

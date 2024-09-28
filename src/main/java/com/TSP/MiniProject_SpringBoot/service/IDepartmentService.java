@@ -1,8 +1,7 @@
 package com.TSP.MiniProject_SpringBoot.service;
 
-import com.TSP.MiniProject_SpringBoot.dto.EmployeeDTO;
-import com.TSP.MiniProject_SpringBoot.dto.ResponseDTO;
 import com.TSP.MiniProject_SpringBoot.dto.DepartmentDTO;
+import com.TSP.MiniProject_SpringBoot.dto.ResponseDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +13,4 @@ public interface IDepartmentService {
     ResponseDTO<DepartmentDTO> findOne(Long id);
     ResponseDTO<DepartmentDTO> findOneByCode(String code);
     ResponseDTO<DepartmentDTO> findBySpecification(DepartmentDTO departmentCondition, Pageable pageable);
-
 }

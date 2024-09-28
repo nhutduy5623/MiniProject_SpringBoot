@@ -31,7 +31,7 @@ public class JwtProvider {
                     .subject(email)
                     .issueTime(new Date())
                     .expirationTime(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                    .claim("role", accountRepository.findOneByEmail(email))
+                    .claim("role", accountRepository.findOneByEmail(email).getRole())
                     .build();
 
             JWSObject jwsObject = new JWSObject(

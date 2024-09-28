@@ -34,7 +34,7 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a id="btn_logout" class="dropdown-item" href="#!">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -197,8 +197,28 @@
 
             // Define use API get data with fetch
             function getData(callBack) {
-                fetch(home_api) 
+                token = localStorage.getItem('token')
+                const fetchOptions = {
+                    method: 'GET', // or 'POST' depending on your API
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Attach the JWT here
+                    }
+                };
+
+                fetch(home_api, fetchOptions) 
                     .then(function(response) {
+                        if (response.status === 403) { // Kiểm tra nếu mã phản hồi là 403
+                            let userChoice = confirm("Bạn không đủ quyền truy cập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
+                            if (userChoice) {
+                                $("#btn_logout").click()
+                                window.location.href = "../../login.html"
+                            } else {
+                                // Người dùng chọn No, không làm gì cả
+                                console.log("Người dùng đã chọn No.");
+                            }
+                            throw new Error("403 Forbidden"); // Dừng xử lý tiếp
+                        }
                         return response.json();
                     })                
                     .then(callBack)
@@ -232,6 +252,9 @@
                 $.ajax({
                     url: delete_API,
                     type: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // Gắn token vào header
+                    },
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function (result) {
@@ -240,8 +263,17 @@
                         start()
                     },
                     error: function (error) {
-                        alert(JSON.stringify(data))
-                        console.log(error)
+                        if (error.status === 403) { // Kiểm tra nếu mã phản hồi là 403
+                            let userChoice = confirm("Bạn không đủ quyền truy cập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
+                            if (userChoice) {
+                                $("#btn_logout").click()
+                                window.location.href = "../../login.html"
+                            } else {
+                                // Người dùng chọn No, không làm gì cả
+                                console.log("Người dùng đã chọn No.");
+                            }
+                            throw new Error("403 Forbidden"); // Dừng xử lý tiếp
+                        }
                     }
                 });
             }

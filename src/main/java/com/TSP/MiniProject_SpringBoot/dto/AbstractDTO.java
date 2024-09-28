@@ -3,6 +3,7 @@ package com.TSP.MiniProject_SpringBoot.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 @Setter
 public abstract class AbstractDTO<T> {
     private Long id;
+
+    @NotBlank(message = "Code is required")
     private String code;
     private String createdBy;
     private Date createdDate;

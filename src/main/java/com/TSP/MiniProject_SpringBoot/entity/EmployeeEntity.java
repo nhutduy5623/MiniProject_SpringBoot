@@ -1,5 +1,6 @@
 package com.TSP.MiniProject_SpringBoot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,10 +13,14 @@ import java.util.List;
 @Table(name = "employee")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EmployeeEntity extends AbstractEntity {
 
     @Column
     private String full_name;
+
+    @Column
+    private String avatar;
 
     @Column
     private Date dob;

@@ -78,19 +78,29 @@
 			<version>9.37.3</version>
 		</dependency>
 
+		<!--Validation-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 
 
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!--Spring Boot-->
+
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
 			</plugin>
 
 
+			<!--Spring Boot-->
 			<!--Lombok-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

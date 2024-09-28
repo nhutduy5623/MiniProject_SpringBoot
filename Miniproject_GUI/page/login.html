@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Login - SB Admin</title>
+        <link href="../css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-primary">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-body">
+                                        <form id="form_login">
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" />
+                                                <label for="inputEmail">Email address</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputPassword" name="email" type="password" placeholder="Password" />
+                                                <label for="inputPassword">Password</label>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <input id="btn_login" class="btn btn-primary" type="button" value="Login">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>           
+            token = localStorage.getItem('token');
+            if (token != "") { // Kiểm tra nếu mã phản hồi là 403
+                let userChoice = confirm("Bạn đã đăng nhập! Bạn có muốn đăng nhập tài khoản khác?"); // Hiển thị hộp thoại Yes/No
+                if (userChoice) {
+                    localStorage.setItem("token", "");
+                    window.location.href="./login.html"
+                } else {
+                    window.location.href="./admin/employee/home.html"
+                }
+                throw new Error("403 Forbidden"); // Dừng xử lý tiếp
+            }
+
+            $("#btn_login").click(function(e){ 
+                e.preventDefault();
+                email = $("#inputEmail").val()
+                password = $("#inputPassword").val()
+                if(email == "" || password =="") {
+                    alert("Missing data!")
+                } else {
+                    login(email, password)
+                }
+
+            })
+            function login(email, password) {
+                fetch('http://localhost:8080/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Login failed");
+                    }
+                    return response.json(); // Trả về một Promise cho kết quả JSON
+                })
+                .then(data => {                    
+                    const token = data.result.token; // Lưu token
+                    localStorage.setItem('token', token); // Lưu token vào localStorage
+                    const decodedToken = jwt_decode(token);
+                    localStorage.setItem('email', decodedToken.role);
+                    console.log("Login successful! Token:", token);     
+                    console.log(decodedToken.role.role == "ROLE_ADMIN")      
+                    if(decodedToken.role.role == "ROLE_ADMIN") {
+                        window.location.href = "./admin/employee/home.html"
+                    } else {
+                        window.location.href = "./admin/employee/home.html"
+                    }
+                })
+                .catch(error => {
+                    console.error("Error during login:", error);
+                });
+            }
+
+
+        </script>
+    </body>
+</html>

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "account")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AccountEntity extends AbstractEntity {
 
     @Column(unique = true)
@@ -27,7 +28,6 @@ public class AccountEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    @JsonIgnoreProperties("list_account")
     private EmployeeEntity employee;
 
 }
